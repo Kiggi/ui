@@ -12,16 +12,18 @@ type ButtonProps = React.HTMLAttributes<HTMLButtonElement> & {
 };
 
 const ButtonContainer = styled("button", {
-  padding: "12px 24px",
-  fontSize: 16,
   display: "flex",
   flexDirection: "row",
-  gap: 8,
   transitionProperty:
     "background-color, transform, border-color, outline-width",
   transitionDuration: "150ms",
   borderSize: 2,
   borderStyle: "solid",
+  padding: "8px 16px",
+  fontSize: 14,
+  lineHeight: "20px",
+  borderRadius: 8,
+  gap: 8,
   userSelect: "none",
   outline: "2px none $$bg",
   outlineOffset: 2,
@@ -57,12 +59,12 @@ const ButtonContainer = styled("button", {
   variants: {
     iconLeft: {
       true: {
-        paddingLeft: 16,
+        paddingLeft: 12,
       },
     },
     iconRight: {
       true: {
-        paddingRight: 16,
+        paddingRight: 12,
       },
     },
     colorStyle: {
@@ -84,20 +86,53 @@ const ButtonContainer = styled("button", {
     },
     size: {
       small: {
-        padding: "8px 16px",
-        fontSize: 14,
+        padding: "4px 8px",
+        fontSize: 12,
         lineHeight: "16px",
-        borderRadius: 8,
+        borderRadius: 4,
+        gap: 4,
       },
-      default: {
+      default: {},
+      large: {
         padding: "12px 24px",
         fontSize: 16,
-        lineHeight: "20px",
+        lineHeight: "24px",
         borderRadius: 12,
+        gap: 12,
       },
-      large: {},
     },
   },
+
+  compoundVariants: [
+    {
+      size: "small",
+      iconLeft: true,
+      css: {
+        paddingLeft: 8,
+      },
+    },
+    {
+      size: "small",
+      iconRight: true,
+      css: {
+        paddingRight: 8,
+      },
+    },
+    {
+      size: "large",
+      iconLeft: true,
+      css: {
+        paddingLeft: 16,
+      },
+    },
+    {
+      size: "large",
+      iconRight: true,
+      css: {
+        paddingLeft: 16,
+      },
+    },
+  ],
 });
 
 function Button({
@@ -110,10 +145,18 @@ function Button({
   size = "default",
   ...props
 }: ButtonProps) {
-  const LeftIcon =
-    iconLeft &&
-    styled(iconLeft, { height: 20, width: 20, variants: { size: {} } });
-  const RightIcon = iconRight && styled(iconRight, { height: 20, width: 20 });
+  const iconStyles = {
+    height: 20,
+    width: 20,
+    variants: {
+      size: {
+        small: { width: 16, height: 16 },
+        large: { width: 24, height: 24 },
+      },
+    },
+  };
+  const LeftIcon = iconLeft && styled(iconLeft, iconStyles);
+  const RightIcon = iconRight && styled(iconRight, iconStyles);
 
   return (
     <ButtonContainer
@@ -132,9 +175,9 @@ function Button({
       size={size}
       {...props}
     >
-      {LeftIcon && <LeftIcon />}
+      {LeftIcon && <LeftIcon size={size} />}
       <span>{label}</span>
-      {RightIcon && <RightIcon />}
+      {RightIcon && <RightIcon size={size} />}
     </ButtonContainer>
   );
 }
