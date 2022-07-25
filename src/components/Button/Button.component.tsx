@@ -151,6 +151,7 @@ function Button({
     variants: {
       size: {
         small: { width: 16, height: 16 },
+        default: {},
         large: { width: 24, height: 24 },
       },
     },
